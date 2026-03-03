@@ -25,6 +25,7 @@ body {
     color: var(--text-primary);
     font-family: 'Space Grotesk', sans-serif;
     overflow-x: hidden;
+    width: 100%;
     line-height: 1.6;
 }
 
@@ -34,12 +35,15 @@ h3,
 .logo {
     font-family: 'Syncopate', sans-serif;
     text-transform: uppercase;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
 }
 
 .section-padding {
@@ -56,6 +60,7 @@ h3,
     padding: 30px;
     box-shadow: var(--card-shadow);
     transition: var(--transition);
+    width: 100%;
 }
 
 .glass-card:hover {
@@ -120,6 +125,9 @@ h3,
     align-items: center;
     text-align: center;
     position: relative;
+    padding: 0 20px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .glitch {
@@ -128,6 +136,7 @@ h3,
     position: relative;
     color: white;
     letter-spacing: 5px;
+    max-width: 100%;
 }
 
 .glitch::before,
@@ -146,10 +155,15 @@ h3,
     margin-top: 20px;
     letter-spacing: 4px;
     opacity: 0.8;
+    max-width: 100%;
 }
 
 .hero-cta {
     margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
 }
 
 .btn {
@@ -159,11 +173,11 @@ h3,
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin: 0 10px;
     transition: var(--transition);
     cursor: pointer;
     border: none;
     display: inline-block;
+    white-space: nowrap;
 }
 
 .btn.primary {
