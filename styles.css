@@ -667,3 +667,8 @@ h3,
 .social-links a:visited {
     color: #7a4fff;
 }
+
+option {
+    background: #1a1a1a;
+    color: var(--text-primary);
+}
