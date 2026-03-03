@@ -5,7 +5,7 @@
 
 /* --- DATA_START --- */
 const INITIAL_DATA = {
-    "version": "1.2",
+    "version": "1.3",
     "projects": [
         {
             "id": "p1",
@@ -237,13 +237,6 @@ const INITIAL_DATA = {
             "id": "wsc-r3",
             "title": "World Scholar's Cup - Regional Round",
             "year": "AY 2024-25",
-            "discipline": "Academic",
-            "img": "wsc.png"
-        },
-        {
-            "id": "wsc-r4",
-            "title": "World Scholar's Cup - Regional Round",
-            "year": "AY 2025-26",
             "discipline": "Academic",
             "img": "wsc.png"
         },
