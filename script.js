@@ -5,8 +5,8 @@
 
 /* --- DATA_START --- */
 const INITIAL_DATA = {
-    version: '1.5',
-    projects: [
+    "version": "1.5",
+    "projects": [
         {
             "id": "p1",
             "title": "MealFlow",
@@ -121,18 +121,6 @@ const INITIAL_DATA = {
             "academicYear": "AY 2025-26"
         },
         {
-            "id": "p1772532052906",
-            "title": "Teni",
-            "shortDesc": "AI bot",
-            "status": "Planned",
-            "fullDesc": "Simulating a brain on a computer",
-            "academicYear": "AY 2025-26",
-            "tech": [
-                "Python"
-            ],
-            "link": "#"
-        },
-        {
             "id": "p9",
             "title": "Echoes of Etheryn",
             "status": "In Progress",
@@ -160,15 +148,19 @@ const INITIAL_DATA = {
             "academicYear": "AY 2024-25"
         },
         {
-            id: 'p11',
-            title: 'Maze Simulation',
-            status: 'Complete',
-            shortDesc: 'Pygame-based maze generation/solving.',
-            fullDesc: 'A simulation exploring maze generation and solving algorithms in Python.',
-            tech: ['Python', 'Pygame', 'Algorithms'],
-            link: 'https://github.com/Creator2149/Maze',
-            academicYear: 'AY 2023-24',
-        },
+            "id": "p11",
+            "title": "Maze Simulation",
+            "status": "Complete",
+            "shortDesc": "Pygame-based maze generation/solving.",
+            "fullDesc": "A simulation exploring maze generation and solving algorithms in Python.",
+            "tech": [
+                "Python",
+                "Pygame",
+                "Algorithms"
+            ],
+            "link": "https://github.com/RishitChoudhary/simulations",
+            "academicYear": "AY 2023-24"
+        }
     ],
     "credentials": [
         {
