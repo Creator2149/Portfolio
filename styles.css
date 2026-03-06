@@ -51,16 +51,23 @@ h3,
 }
 
 /* Glassmorphism utility */
-.glass-card {
-    background: var(--glass-bg);
+
+.glass-card,
+.cert-card {
+    background: var(--glass-bg) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
     border-radius: 15px;
     padding: 30px;
-    box-shadow: var(--card-shadow);
+    box-shadow: var(--card-shadow) !important;
     transition: var(--transition);
     width: 100%;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* Fix for Chrome/Safari paint bug on fast scroll */
 }
 
 .glass-card:hover {
@@ -84,9 +91,31 @@ h3,
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    position: relative;
     padding: 0 20px;
+}
+
+/* Center nav links absolutely in navbar for desktop */
+.nav-links {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        position: static;
+        justify-content: flex-start;
+        width: 100%;
+        margin: 0;
+    }
 }
 
 .logo {

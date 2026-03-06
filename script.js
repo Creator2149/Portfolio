@@ -9,7 +9,7 @@ window.openCertModal = (certId) => {
         <span class=\"tech-tag\">${c.discipline}</span>
         <p style=\"margin: 10px 0 5px 0;\"><strong>Year:</strong> ${c.year}</p>
         <div style=\"display: flex; justify-content: center; align-items: center; margin: 20px 0;\">
-            <img src=\"${c.img}\" alt=\"${c.title}\" style=\"width: 100%; height: auto; max-width: 100%; border-radius: 10px; box-shadow: 0 0 20px #00fff7a0; object-fit: contain; background: #222; display: block;\" onerror=\"this.style.display='none';this.parentNode.innerHTML='<span style=\\'color: var(--accent-color);font-size:2rem\\'>[Certificate Image Not Found]</span>';\" />
+            <img src=\"${c.img}\" alt=\"${c.title}\" style=\"width: 100%; height: auto; max-width: 100%; border-radius: 10px; box-shadow: 0 0 20px #00fff7a0; object-fit: contain; background: #222; display: block;\" onerror=\"this.style.display='none';this.parentNode.innerHTML='<span style=\\'color: var(--accent-color);font-size:2rem\\'>[No Certificate]</span>';\" />
         </div>
     `;
     modal.style.display = 'block';
@@ -428,11 +428,11 @@ function renderCredentials(sort = 'desc') {
             img.style.borderRadius = '5px';
             img.style.objectFit = 'contain';
             img.onerror = function () {
-                imgContainer.innerHTML = `<span style='color: var(--accent-color)'>[Certificate Image]</span>`;
+                imgContainer.innerHTML = `<span style='color: var(--accent-color)'>[No Certificate]</span>`;
             };
             imgContainer.appendChild(img);
         } else {
-            imgContainer.innerHTML = `<span style='color: var(--accent-color)'>[Certificate Image]</span>`;
+            imgContainer.innerHTML = `<span style='color: var(--accent-color)'>[No Certificate]</span>`;
         }
 
         cardContent.appendChild(imgContainer);
@@ -514,7 +514,7 @@ const admin = {
 
     init() {
         document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+            if (e.altKey && e.shiftKey && e.key === 'A') {
                 document.getElementById('admin-gate').style.display = 'block';
             }
         });
