@@ -13,6 +13,8 @@ async function hashPassphrase(str) {
 }
 
 const adminUI = {
+    pendingFiles: {},
+
     init() {
         this.loginBtn = document.getElementById('admin-login-btn');
         this.passphraseInput = document.getElementById('admin-passphrase');
@@ -169,7 +171,7 @@ const adminUI = {
                 </div>
                 <div class="form-btns">
                     <button class="btn secondary" onclick="adminUI.cancelEdit('${c.id}')">Cancel</button>
-                    <button class="btn primary" onclick="adminUI.saveCert('${c.id}')">Upload & Save Locally</button>
+                    <button class="btn primary" onclick="adminUI.saveCert('${c.id}')">Save Locally</button>
                 </div>
             </div>
         `;
@@ -217,28 +219,16 @@ const adminUI = {
         this.notifyLocalSave();
     },
 
-    async saveCert(id) {
+    saveCert(id) {
         const isNew = !portfolioData.credentials.find((c) => c.id === id);
         const fileInput = document.getElementById(`edit-cert-file-${id}`);
         const file = fileInput.files[0];
         let imgName = "";
 
         if (file) {
-            const token = this.patInput.value.trim();
-            if (!token) {
-                alert("Please enter your GitHub PAT first to upload the image.");
-                return;
-            }
-            
-            try {
-                this.notifyStatus("Uploading image to GitHub...", "var(--accent-color)");
-                await this.uploadFileToGitHub(file, token);
-                imgName = file.name;
-                this.notifyStatus("Image uploaded successfully!", "#00ff80");
-            } catch (err) {
-                this.notifyStatus("Error uploading image: " + err.message, "#ff4d4d");
-                return;
-            }
+            // Store file for later upload
+            this.pendingFiles[file.name] = file;
+            imgName = file.name;
         } else {
             if (!isNew) {
                 const oldCert = portfolioData.credentials.find((c) => c.id === id);
@@ -335,10 +325,14 @@ const adminUI = {
         this.notifyLocalSave();
     },
 
-    notifyLocalSave() {
+    notifyStatus(msg, color) {
         const statusEl = document.getElementById('pat-status');
-        statusEl.innerText = 'Changes saved locally. Click "Push Changes" to update production.';
-        statusEl.style.color = 'var(--accent-color)';
+        statusEl.innerText = msg;
+        statusEl.style.color = color || 'var(--text-secondary)';
+    },
+
+    notifyLocalSave() {
+        this.notifyStatus('Changes saved locally. Click "Push Changes" to update production.', 'var(--accent-color)');
     },
 
     addNewProject() {
@@ -373,20 +367,27 @@ const adminUI = {
         const statusEl = document.getElementById('pat-status');
 
         if (!token) {
-            statusEl.innerText = 'Error: Please enter your GitHub PAT first.';
-            statusEl.style.color = '#ff4d4d';
+            this.notifyStatus('Error: Please enter your GitHub PAT first.', '#ff4d4d');
             return;
         }
 
         this.pushBtn.disabled = true;
         this.pushBtn.innerText = 'Syncing...';
-        statusEl.innerText = 'Syncing with GitHub...';
-        statusEl.style.color = 'var(--accent-color)';
-
-        const repo = 'rishitc17/rishitc17.github.io';
-        const path = 'data.js';
+        this.notifyStatus('Syncing with GitHub...', 'var(--accent-color)');
 
         try {
+            // 1. Upload any pending images first
+            const fileNames = Object.keys(this.pendingFiles);
+            for (const name of fileNames) {
+                this.notifyStatus(`Uploading ${name}...`, 'var(--accent-color)');
+                await this.uploadFileToGitHub(this.pendingFiles[name], token);
+                delete this.pendingFiles[name];
+            }
+
+            // 2. Update data.js
+            const repo = 'rishitc17/rishitc17.github.io';
+            const path = 'data.js';
+
             // Increment version
             const parts = portfolioData.version.split('.');
             parts[parts.length - 1] = parseInt(parts[parts.length - 1]) + 1;
@@ -421,11 +422,9 @@ const adminUI = {
 
             if (!putRes.ok) throw new Error('Failed to update data.js. Check PAT permissions.');
 
-            statusEl.innerText = `Success: ${successMsg} (v${portfolioData.version} deploying)`;
-            statusEl.style.color = '#00ff80';
+            this.notifyStatus(`Success: ${successMsg} (v${portfolioData.version} deploying)`, '#00ff80');
         } catch (err) {
-            statusEl.innerText = 'Error: ' + err.message;
-            statusEl.style.color = '#ff4d4d';
+            this.notifyStatus('Error: ' + err.message, '#ff4d4d');
             console.error(err);
         } finally {
             this.pushBtn.disabled = false;
